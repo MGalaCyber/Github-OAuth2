@@ -1,0 +1,32 @@
+{
+  "name": "@mgalacyber/github-oauth2",
+  "version": "1.0.0",
+  "description": "Github OAuth2 simplifies user authentication and profile management for Github-integrated applications.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MGalaCyber/Github-OAuth2.git"
+  },
+  "keywords": [
+    "OAuth2",
+    "Github",
+    "authentication",
+    "authorization",
+    "profile",
+    "management",
+    "integration"
+  ],
+  "author": "MGalaCyber",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/MGalaCyber/Github-OAuth2/issues"
+  },
+  "homepage": "https://github.com/MGalaCyber/Github-OAuth2#readme",
+  "dependencies": {
+    "@mgalacyber/package-notifier": "^1.0.1",
+    "undici": "^6.16.1"
+  }
+}
