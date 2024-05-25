@@ -34,50 +34,13 @@ export enum Scopes {
     Workflow,
 }
 
-export enum MetaDataTypes {
-    IntegerLessThanOrEqual,
-    IntegerGreaterThanOrEqual,
-    IntegerEqual,
-    IntegerNotEqual,
-    DatetimeLessThanOrEqual,
-    DatetimeGreaterThanOrEqual,
-    BooleanEqual,
-    BooleanNotEqual,
-}
-
 export interface GenerateOAuth2UrlParams {
-    login: string;
     scope: readonly Scopes[],
-    allowSignUp: string;
+    loginAccount?: string;
+    allowSignUp?: boolean;
 }
 
-export interface GuildMemberParams {
+export interface GetUserProfile {
     accessToken: string;
-    guildId: string;
+    userAgent: string;
 }
-
-export interface AddGuildMemberParams {
-    accessToken: string;
-    params: { guildId: string; userId: string };
-    body?: { nick: string; roles: string[]; mute: boolean; deaf: boolean };
-}
-
-export interface AddGroupMemberParams {
-    accessToken: string;
-    params: { groupId: string; userId: string };
-    body?: { nick: string };
-}
-
-export interface PushUserMetaDataParams {
-    refreshToken: string;
-    body: { platformName: string, metaData: object };
-}
-
-export interface RegisterMetaDataParams extends Array<{
-    key: string;
-    name: string;
-    nameLocalizations?: string;
-    description: string;
-    descriptionLocalizations?: string;
-    type: MetaDataTypes
-}> {}

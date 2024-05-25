@@ -6,85 +6,52 @@ export interface GenerateOAuth2Url {
 export interface AuthorizationToken {
     accessToken: string;
     tokenType: string;
-    expiresIn: number;
-    refreshToken: string;
     scope: string;
 }
 
 export interface UserProfile {
-    id: string;
-    username: string;
-    avatar: string;
-    discriminator: string;
-    publicFlags: number;
-    flags: number;
-    banner: string;
-    accentColor: number;
-    globalName: string;
-    avatarDecorationData: {
-      asset: string;
-      skuId: string;
-    };
-    bannerColor: string;
-    clan: string;
-    mfaEnabled: boolean;
-    locale: string;
-    premiumType: number;
-    email: string;
-    verified: boolean;
-}
-
-export interface UserGuilds extends Array<{
-    id: string;
-    name: string;
-    icon: string;
-    owner: boolean;
-    permissions: number;
-    permissionsNew: string;
-    features: string[];
-}> {}
-
-export interface UserConnections extends Array<{
-    id: string;
-    name: string;
+    login: string;
+    id: number;
+    nodeId: string;
+    avatarUrl: string;
+    gravatarId: string;
+    url: string;
+    htmlUrl: string;
+    followersUrl: string;
+    followingUrl: string;
+    gistsUrl: string;
+    starredUrl: string;
+    subscriptionsUrl: string;
+    organizationsUrl: string;
+    reposUrl: string;
+    eventsUrl: string;
+    receivedEventsUrl: string;
     type: string;
-    friendSync: boolean;
-    metadataVisibility: number;
-    showActivity: boolean;
-    twoWayLink: boolean;
-    verified: boolean;
-    visibility: number;
-}> {}
-
-export interface UserGuildMember {
-    avatar: string;
-    communicationDisabledUntil: string;
-    flags: number;
-    joinedAt: string;
-    nick: string;
-    pending: boolean;
-    premiumSince: string;
-    roles: string[];
-    unusualDMActivityUntil: string;
-    user: {
-        id: string;
-        username: string;
-        avatar: string;
-        discriminator: string;
-        publicFlags: number;
-        flags: number;
-        banner: string;
-        accentColor: number;
-        globalName: string;
-        avatarDecorationData: {
-            asset: string;
-            skuId: string;
-        };
-        bannerColor: string;
-        clan: string;
-    };
-    mute: boolean;
-    deaf: boolean;
+    siteAdmin: boolean;
+    name: string;
+    company: string;
+    blog: string;
+    location: string;
+    email: string;
+    hireable: boolean;
     bio: string;
-    banner: string;
+    twitterUsername: string;
+    publicRepos: number;
+    publicGists: number;
+    followers: number;
+    following: number;
+    createdAt: string;
+    updatedAt: string;
+    privateGists: string;
+    totalPrivateRepos: number;
+    ownedPrivateRepos: number;
+    diskUsage: number;
+    collaborators: number;
+    twoFactorAuthentication: boolean;
+    plan: {
+        name: string;
+        space: number;
+        collaborators: number;
+        privateRepos: number;
+    }
 }
