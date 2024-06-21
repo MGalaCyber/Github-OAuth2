@@ -2,9 +2,10 @@ const { URLSearchParams } = require("url");
 const { request } = require("undici");
 const Crypto = require("crypto");
 
-const CloneGithubRepository = require("./clone");
-const GetUserRepositories = require("./repos");
-const GetUserProfiles = require("./profile");
+const FunctionCloneGithubRepository = require("./clone");
+const FunctionGetUserRepositories = require("./repos");
+const FunctionGetUserProfile = require("./profile");
+const FunctionGetUserEmails = require("./email");
 
 const Scopes = {
     Repo: "repo",
@@ -116,7 +117,16 @@ class GithubOAuth2 {
         if (typeof accessToken !== "string") throw new Error("Invalid parameter type: accessToken must be a string");
         if (typeof userAgent !== "string") throw new Error("Invalid parameter type: userAgent must be a string");
 
-        return GetUserProfiles({ accessToken, userAgent });
+        return FunctionGetUserProfile({ accessToken, userAgent });
+    };
+
+    GetUserEmails({ accessToken, userAgent }) {
+        if (!accessToken) throw new Error("Missing required parameter: accessToken");
+        if (!userAgent) throw new Error("Missing required parameter: userAgent");
+        if (typeof accessToken !== "string") throw new Error("Invalid parameter type: accessToken must be a string");
+        if (typeof userAgent !== "string") throw new Error("Invalid parameter type: userAgent must be a string");
+
+        return FunctionGetUserEmails({ accessToken, userAgent });
     };
 
     GetUserRepos({ accessToken, userAgent }) {
@@ -125,7 +135,7 @@ class GithubOAuth2 {
         if (typeof accessToken !== "string") throw new Error("Invalid parameter type: accessToken must be a string");
         if (typeof userAgent !== "string") throw new Error("Invalid parameter type: userAgent must be a string");
 
-        return GetUserRepositories({ accessToken, userAgent });
+        return FunctionGetUserRepositories({ accessToken, userAgent });
     };
 
     CloneRepository({ accessToken, repoOwner, repoName, localPath }) {
@@ -138,7 +148,7 @@ class GithubOAuth2 {
         if (typeof repoName !== "string") throw new Error("Invalid parameter type: repoName must be a string");
         if (typeof localPath !== "string") throw new Error("Invalid parameter type: localPath must be a string");
 
-        return CloneGithubRepository({ accessToken, repoOwner, repoName, localPath }).then(() => {
+        return FunctionCloneGithubRepository({ accessToken, repoOwner, repoName, localPath }).then(() => {
             console.log(`Repository ${repoOwner}/${repoName} cloned successfully!`);
         });
     };

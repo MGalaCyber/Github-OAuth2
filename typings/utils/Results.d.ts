@@ -56,6 +56,13 @@ export interface UserProfile {
     }
 }
 
+export interface UserEmails {
+    email: string;
+    primary: boolean;
+    verified: boolean;
+    visibility: string | null;
+}
+
 export interface Owner {
     login: string;
     id: number;

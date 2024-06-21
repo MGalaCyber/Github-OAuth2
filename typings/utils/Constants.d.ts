@@ -40,17 +40,22 @@ export interface GenerateOAuth2UrlParams {
     allowSignUp?: boolean;
 }
 
-export interface GetUserProfile {
+export interface GetUserProfileParams {
     accessToken: string;
     userAgent: string;
 }
 
-export interface GetUserRepos {
+export interface GetUserEmailsParams {
     accessToken: string;
     userAgent: string;
 }
 
-export interface GenerateCloneRepository {
+export interface GetUserReposParams {
+    accessToken: string;
+    userAgent: string;
+}
+
+export interface GenerateCloneRepositoryParams {
     accessToken: string;
     repoOwner: string;
     repoName: string;
