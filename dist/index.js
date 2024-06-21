@@ -2,6 +2,10 @@ const { URLSearchParams } = require("url");
 const { request } = require("undici");
 const Crypto = require("crypto");
 
+const CloneGithubRepository = require("./clone");
+const GetUserRepositories = require("./repos");
+const GetUserProfiles = require("./profile");
+
 const Scopes = {
     Repo: "repo",
     RepoStatus: "repo:status",
@@ -112,65 +116,30 @@ class GithubOAuth2 {
         if (typeof accessToken !== "string") throw new Error("Invalid parameter type: accessToken must be a string");
         if (typeof userAgent !== "string") throw new Error("Invalid parameter type: userAgent must be a string");
 
-        return new Promise(async (resolve, reject) => {
-            const getResponse = await request("https://api.github.com/user", {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                    "User-Agent": userAgent
-                },
+        return GetUserProfiles({ accessToken, userAgent });
+    };
 
-            }).catch((error) => reject(error));
+    GetUserRepos({ accessToken, userAgent }) {
+        if (!accessToken) throw new Error("Missing required parameter: accessToken");
+        if (!userAgent) throw new Error("Missing required parameter: userAgent");
+        if (typeof accessToken !== "string") throw new Error("Invalid parameter type: accessToken must be a string");
+        if (typeof userAgent !== "string") throw new Error("Invalid parameter type: userAgent must be a string");
 
-            const getResult = await getResponse.body.json();
-            const formatResult = getResult.map(({ login, id, node_id, avatar_url, gravatar_id, url, html_url, followers_url, following_url, gists_url, starred_url, subscriptions_url, organizations_url, repos_url, events_url, received_events_url, type, site_admin, name, company, blog, location, email, hireable, bio, twitter_username, public_repos, public_gists, followers, following, created_at, updated_at, private_gists, total_private_repos, owned_private_repos, disk_usage, collaborators, two_factor_authentication, plan }) => ({
-                login,
-                id,
-                nodeId: node_id,
-                avatarUrl: avatar_url,
-                gravatarId: gravatar_id,
-                url,
-                htmlUrl: html_url,
-                followersUrl: followers_url,
-                followingUrl: following_url,
-                gistsUrl: gists_url,
-                starredUrl: starred_url,
-                subscriptionsUrl: subscriptions_url,
-                organizationsUrl: organizations_url,
-                reposUrl: repos_url,
-                eventsUrl: events_url,
-                receivedEventsUrl: received_events_url,
-                type,
-                siteAdmin: site_admin,
-                name,
-                company,
-                blog,
-                location,
-                email,
-                hireable,
-                bio,
-                twitterUsername: twitter_username,
-                publicRepos: public_repos,
-                publicGists: public_gists,
-                followers,
-                following,
-                createdAt: created_at,
-                updatedAt: updated_at,
-                privateGists: private_gists,
-                totalPrivateRepos: total_private_repos,
-                ownedPrivateRepos: owned_private_repos,
-                diskUsage: disk_usage,
-                collaborators,
-                twoFactorAuthentication: two_factor_authentication,
-                plan: {
-                    name: plan.name,
-                    space: plan.space,
-                    collaborators: plan.collaborators,
-                    privateRepos: plan.private_repos
-                }
-            }));
+        return GetUserRepositories({ accessToken, userAgent });
+    };
 
-            return resolve(formatResult);
+    CloneRepository({ accessToken, repoOwner, repoName, localPath }) {
+        if (!accessToken) throw new Error("Missing required parameter: accessToken");
+        if (!repoOwner) throw new Error("Missing required parameter: repoOwner");
+        if (!repoName) throw new Error("Missing required parameter: repoName");
+        if (!localPath) throw new Error("Missing required parameter: localPath");
+        if (typeof accessToken !== "string") throw new Error("Invalid parameter type: accessToken must be a string");
+        if (typeof repoOwner !== "string") throw new Error("Invalid parameter type: repoOwner must be a string");
+        if (typeof repoName !== "string") throw new Error("Invalid parameter type: repoName must be a string");
+        if (typeof localPath !== "string") throw new Error("Invalid parameter type: localPath must be a string");
+
+        return CloneGithubRepository({ accessToken, repoOwner, repoName, localPath }).then(() => {
+            console.log(`Repository ${repoOwner}/${repoName} cloned successfully!`);
         });
     };
 };

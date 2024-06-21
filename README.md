@@ -147,6 +147,150 @@ oauth2.GetUserProfile({
 });
 ```
 
+### Get User Repositories
+> [!TIP]
+> Require scope for this function:
+> - Use the `repo` scope to retrieve the user's `public repository` and `private repository` status.
+```js
+oauth2.GetUserRepos({
+    accessToken: "1234567890ABCDEFGHIJ1234567890", // Required
+    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/112.0", // Required
+
+}).then((result) => {
+    console.log(result);
+    // Response {
+    //     id: number;
+    //     nodeId: string;
+    //     name: string;
+    //     fullName: string;
+    //     private: boolean;
+    //     owner: {
+    //         login: string;
+    //         id: number;
+    //         nodeId: string;
+    //         avatarUrl: string;
+    //         gravatarId: string;
+    //         url: string;
+    //         htmlUrl: string;
+    //         followersUrl: string;
+    //         followingUrl: string;
+    //         gistsUrl: string;
+    //         starredUrl: string;
+    //         subscriptionsUrl: string;
+    //         organizationsUrl: string;
+    //         reposUrl: string;
+    //         eventsUrl: string;
+    //         receivedEventsUrl: string;
+    //         type: string;
+    //         siteAdmin: boolean;
+    //     };
+    //     htmlUrl: string;
+    //     description: string;
+    //     fork: boolean;
+    //     url: string;
+    //     forksUrl: string;
+    //     keysUrl: string;
+    //     collaboratorsUrl: string;
+    //     teamsUrl: string;
+    //     hooksUrl: string;
+    //     issueEventsUrl: string;
+    //     eventsUrl: string;
+    //     assigneesUrl: string;
+    //     branchesUrl: string;
+    //     tagsUrl: string;
+    //     blobsUrl: string;
+    //     gitTagsUrl: string;
+    //     gitRefsUrl: string;
+    //     treesUrl: string;
+    //     statusesUrl: string;
+    //     languagesUrl: string;
+    //     stargazersUrl: string;
+    //     contributorsUrl: string;
+    //     subscribersUrl: string;
+    //     subscriptionUrl: string;
+    //     commitsUrl: string;
+    //     gitCommitsUrl: string;
+    //     commentsUrl: string;
+    //     issueCommentUrl: string;
+    //     contentsUrl: string;
+    //     compareUrl: string;
+    //     mergesUrl: string;
+    //     archiveUrl: string;
+    //     downloadsUrl: string;
+    //     issuesUrl: string;
+    //     pullsUrl: string;
+    //     milestonesUrl: string;
+    //     notificationsUrl: string;
+    //     labelsUrl: string;
+    //     releasesUrl: string;
+    //     deploymentsUrl: string;
+    //     createdAt: string;
+    //     updatedAt: string;
+    //     pushedAt: string;
+    //     gitUrl: string;
+    //     sshUrl: string;
+    //     cloneUrl: string;
+    //     svnUrl: string;
+    //     homepage: string;
+    //     size: number;
+    //     stargazersCount: number;
+    //     watchersCount: number;
+    //     language: string;
+    //     hasIssues: boolean;
+    //     hasProjects: boolean;
+    //     hasDownloads: boolean;
+    //     hasWiki: boolean;
+    //     hasPages: boolean;
+    //     hasDiscussions: boolean;
+    //     forksCount: number;
+    //     mirrorUrl: string;
+    //     archived: boolean;
+    //     disabled: boolean;
+    //     openIssuesCount: number;
+    //     license: {
+    //         key: string;
+    //         name: string;
+    //         spdxId: string;
+    //         url: string;
+    //         nodeId: string;
+    //     };
+    //     allowForking: boolean;
+    //     isTemplate: boolean;
+    //     webCommitSignoffRequired: boolean;
+    //     topics: string[];
+    //     visibility: string;
+    //     forks: number;
+    //     openIssues: number;
+    //     watchers: number;
+    //     defaultBranch: string;
+    //     permissions: {
+    //         admin: boolean;
+    //         maintain: boolean;
+    //         push: boolean;
+    //         triage: boolean;
+    //         pull: boolean;
+    //     };
+    // }
+});
+```
+
+### Clone Github Repositories
+> [!TIP]
+> Require scope for this function:
+> - Use the `repo` scope to retrieve the user's `public repository` and `private repository` permission.
+```js
+oauth2.CloneRepository({
+    accessToken: "1234567890ABCDEFGHIJ1234567890", // Required
+    repoName: "example", // Required
+    repoOwner: "username", // Required
+    localPath: "./folderPath" // Required
+
+}).then((result) => {
+    console.log(result);
+    // Response: { any }
+});
+```
+
 
 ## How It Works
 **Github OAuth2** simplifies user authentication and profile management for Github-integrated applications. It offers a straightforward OAuth2 workflow, enabling developers to seamlessly integrate Github features into their projects.

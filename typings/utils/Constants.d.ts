@@ -44,3 +44,15 @@ export interface GetUserProfile {
     accessToken: string;
     userAgent: string;
 }
+
+export interface GetUserRepos {
+    accessToken: string;
+    userAgent: string;
+}
+
+export interface GenerateCloneRepository {
+    accessToken: string;
+    repoOwner: string;
+    repoName: string;
+    localPath: string;
+}
