@@ -1,11 +1,4 @@
-const { URLSearchParams } = require("url");
-const { request } = require("undici");
-const Crypto = require("crypto");
-
-const FunctionCloneGithubRepository = require("./clone");
-const FunctionGetUserRepositories = require("./repos");
-const FunctionGetUserProfile = require("./profile");
-const FunctionGetUserEmails = require("./email");
+const GithubApis = require("./github");
 
 const Scopes = {
     Repo: "repo",
@@ -44,11 +37,13 @@ const Scopes = {
 };
 
 class GithubOAuth2 {
-    constructor({clientId, clientSecret, redirectUri}) {
+    constructor({ clientId, clientSecret, redirectUri }) {
         if (!clientId) throw new Error("Missing required parameters: clientId");
         if (!clientSecret) throw new Error("Missing required parameters: clientSecret");
         if (!redirectUri) throw new Error("Missing required parameters: redirectUri");
-        if (typeof clientId !== "string" || typeof clientSecret !== "string" || typeof redirectUri !== "string") throw new Error("Invalid parameter types: clientId, clientSecret, redirectUri must be strings");
+        if (typeof clientId !== "string") throw new Error("Invalid parameter types: clientId must be string");
+        if (typeof clientSecret !== "string") throw new Error("Invalid parameter types: clientSecret must be string");
+        if (typeof redirectUri !== "string") throw new Error("Invalid parameter types: redirectUri must be string");
 
         this.clientId = clientId ? clientId : "";
         this.clientSecret = clientSecret ? clientSecret : "";
@@ -61,54 +56,14 @@ class GithubOAuth2 {
         if (loginAccount !== undefined && typeof loginAccount !== "string") throw new Error("Invalid parameter types: loginAccount must be string");
         if (allowSignUp !== undefined && typeof allowSignUp !== "boolean") throw new Error("Invalid parameter type: allowSignUp must be a boolean");
 
-        return new Promise((resolve, reject) => {
-            let genState = Crypto.randomBytes(16).toString("hex");
-            const genParams = new URLSearchParams({
-                client_id: this.clientId,
-                redirect_uri: this.redirectUri,
-                scope: Array.isArray(scope) ? scope.join(" ") : scope,
-                state: genState,
-                ...(loginAccount && { login: loginAccount }),
-                ...(allowSignUp !== undefined && { allow_signup: allowSignUp.toString() }),
-            });
-
-            return resolve({
-                state: genState,
-                url: `https://github.com/login/oauth/authorize?${genParams.toString()}`
-            });
-        });
+        return GithubApis.OAuth2Url(this.clientId, this.clientSecret, this.redirectUri, { scope, loginAccount, allowSignUp });
     };
 
     GetAccessToken(callbackCode) {
         if (!callbackCode) throw new Error("Missing required parameter: callbackCode");
         if (typeof callbackCode !== "string") throw new Error("Invalid parameter type: callbackCode must be a string");
 
-        return new Promise(async (resolve, reject) => {
-            const genParams = new URLSearchParams({
-                client_id: this.clientId,
-                client_secret: this.clientSecret,
-                code: callbackCode,
-                redirect_uri: this.redirectUri
-            });
-
-            const getResponse = await request("https://github.com/login/oauth/access_token", {
-                method: "POST",
-                headers: {
-                    Accept: "application/json"
-                },
-                body: genParams.toString()
-
-            }).catch((error) => reject(error));
-
-            const getResult = await getResponse.body.json();
-            const formatResult = {
-                accessToken: getResult.access_token,
-                tokenType: getResult.token_type,
-                scope: getResult.scope,
-            };
-
-            return resolve(formatResult);
-        });
+        return GithubApis.AccessToken(this.clientId, this.clientSecret, this.redirectUri, { callbackCode });
     };
 
     GetUserProfile({ accessToken, userAgent }) {
@@ -117,7 +72,7 @@ class GithubOAuth2 {
         if (typeof accessToken !== "string") throw new Error("Invalid parameter type: accessToken must be a string");
         if (typeof userAgent !== "string") throw new Error("Invalid parameter type: userAgent must be a string");
 
-        return FunctionGetUserProfile({ accessToken, userAgent });
+        return GithubApis.UserProfile(this.clientId, this.clientSecret, this.redirectUri, { accessToken, userAgent });
     };
 
     GetUserEmails({ accessToken, userAgent }) {
@@ -126,7 +81,7 @@ class GithubOAuth2 {
         if (typeof accessToken !== "string") throw new Error("Invalid parameter type: accessToken must be a string");
         if (typeof userAgent !== "string") throw new Error("Invalid parameter type: userAgent must be a string");
 
-        return FunctionGetUserEmails({ accessToken, userAgent });
+        return GithubApis.UserEmail(this.clientId, this.clientSecret, this.redirectUri, { accessToken, userAgent });
     };
 
     GetUserRepos({ accessToken, userAgent }) {
@@ -135,7 +90,7 @@ class GithubOAuth2 {
         if (typeof accessToken !== "string") throw new Error("Invalid parameter type: accessToken must be a string");
         if (typeof userAgent !== "string") throw new Error("Invalid parameter type: userAgent must be a string");
 
-        return FunctionGetUserRepositories({ accessToken, userAgent });
+        return GithubApis.UserRepos(this.clientId, this.clientSecret, this.redirectUri, { accessToken, userAgent });
     };
 
     CloneRepository({ accessToken, repoOwner, repoName, localPath }) {
@@ -148,8 +103,9 @@ class GithubOAuth2 {
         if (typeof repoName !== "string") throw new Error("Invalid parameter type: repoName must be a string");
         if (typeof localPath !== "string") throw new Error("Invalid parameter type: localPath must be a string");
 
-        return FunctionCloneGithubRepository({ accessToken, repoOwner, repoName, localPath }).then(() => {
-            console.log(`Repository ${repoOwner}/${repoName} cloned successfully!`);
+        return GithubApis.RepoClone(this.clientId, this.clientSecret, this.redirectUri, { accessToken, repoOwner, repoName, localPath }).then((result) => {
+            if (result.status) console.log(`Repository ${repoOwner}/${repoName} cloned successfully!`);
+            if (!result.status) console.log(result.message);
         });
     };
 };

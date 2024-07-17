@@ -58,18 +58,18 @@ export class GithubOAuth2 {
      * @param {GetUserEmailsParams} options - Options for generating user profile.
      * @param {string} options.accessToken - The access token.
      * @param {string} options.userAgent - The header user agent.
-     * @returns {Promise<UserEmails>} - A promise that resolves with the user profile.
+     * @returns {Promise<[UserEmails]>} - A promise that resolves with the user profile.
      */
-    public GetUserEmails(options: GetUserEmailsParams): Promise<UserEmails>;
+    public GetUserEmails(options: GetUserEmailsParams): Promise<[UserEmails]>;
 
     /**
      * Retrieves user repos based on provided access token.
      * @param {GetUserReposParams} options - Options for generating user repos.
      * @param {string} options.accessToken - The access token.
      * @param {string} options.userAgent - The header user agent.
-     * @returns {Promise<UserRepos>} - A promise that resolves with the user repos.
+     * @returns {Promise<[UserRepos]>} - A promise that resolves with the user repos.
      */
-    public GetUserRepos(options: GetUserReposParams): Promise<UserRepos>;
+    public GetUserRepos(options: GetUserReposParams): Promise<[UserRepos]>;
 
     /**
      * Clones a repository using an access token.
