@@ -183,6 +183,6 @@ export class GithubOAuth2 {
          * @param {string} options.localPath - Local path to save the repository.
          * @returns {Promise<any>} - Output from the git clone command.
          */
-        CloneRepository(options: RepositoryCloneParams): Promise<any>;
+        Clone(options: RepositoryCloneParams): Promise<any>;
     }
 }
