@@ -50,12 +50,69 @@ export interface GetUserEmailsParams {
     userAgent: string;
 }
 
-export interface GetUserReposParams {
+export interface GetUserRepositories {
     accessToken: string;
     userAgent: string;
 }
 
-export interface GenerateCloneRepositoryParams {
+export interface GetUserEmails {
+    accessToken: string;
+    userAgent: string;
+}
+
+export interface GetUserPublicEmails {
+    accessToken: string;
+    userAgent: string;
+}
+
+export interface FollowUserParams {
+    accessToken: string;
+    userAgent: string;
+    username: string;
+}
+
+export interface UnfollowUserParams {
+    accessToken: string;
+    userAgent: string;
+    username: string;
+}
+
+export interface IsFollowingParams {
+    accessToken: string;
+    userAgent: string;
+    username: string;
+}
+
+export interface FollowingOtherUserParams {
+    accessToken: string;
+    userAgent: string;
+    username: string;
+    target: string;
+}
+
+export interface FollowersParams {
+    accessToken: string;
+    userAgent: string;
+}
+
+export interface FollowingParams {
+    accessToken: string;
+    userAgent: string;
+}
+
+export interface FollowersListParams {
+    accessToken: string;
+    userAgent: string;
+    username: string;
+}
+
+export interface FollowingListParams {
+    accessToken: string;
+    userAgent: string;
+    username: string;
+}
+
+export interface RepositoryCloneParams {
     accessToken: string;
     repoOwner: string;
     repoName: string;

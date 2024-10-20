@@ -92,7 +92,7 @@ oauth2.GetAccessToken(callbackCode).then((result) => {
 > - Use the `user` scope to retrieve the user profile.
 > - Use the `repo` scope to retrieve the user's `public repository` and `private repository` status.
 ```js
-oauth2.GetUserProfile({
+oauth2.UserSchemas.GetUserProfile({
     accessToken: "1234567890ABCDEFGHIJ1234567890", // Required
     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/112.0", // Required
 
@@ -152,7 +152,7 @@ oauth2.GetUserProfile({
 > Require scope for this function:
 > - Use the `user:email` scope to retrieve the user emails.
 ```js
-oauth2.GetUserEmails({
+oauth2.UserSchemas.EmailSchemas.GetEmails({
     accessToken: "1234567890ABCDEFGHIJ1234567890", // Required
     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/112.0", // Required
 
@@ -174,7 +174,7 @@ oauth2.GetUserEmails({
 > Require scope for this function:
 > - Use the `repo` scope to retrieve the user's `public repository` and `private repository` status.
 ```js
-oauth2.GetUserRepos({
+oauth2.UserSchemas.GetUserRepositories({
     accessToken: "1234567890ABCDEFGHIJ1234567890", // Required
     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/112.0", // Required
 
@@ -303,7 +303,7 @@ oauth2.GetUserRepos({
 > Require scope for this function:
 > - Use the `repo` scope to retrieve the user's `public repository` and `private repository` permission.
 ```js
-oauth2.CloneRepository({
+oauth2.RespositorySchemas.CloneRepository({
     accessToken: "1234567890ABCDEFGHIJ1234567890", // Required
     repoName: "example", // Required
     repoOwner: "username", // Required

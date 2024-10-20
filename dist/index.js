@@ -66,48 +66,150 @@ class GithubOAuth2 {
         return GithubApis.AccessToken(this.clientId, this.clientSecret, this.redirectUri, { callbackCode });
     };
 
-    GetUserProfile({ accessToken, userAgent }) {
-        if (!accessToken) throw new Error("Missing required parameter: accessToken");
-        if (!userAgent) throw new Error("Missing required parameter: userAgent");
-        if (typeof accessToken !== "string") throw new Error("Invalid parameter type: accessToken must be a string");
-        if (typeof userAgent !== "string") throw new Error("Invalid parameter type: userAgent must be a string");
+    get RespositorySchemas() {
+        return {
+            Clone({ accessToken, repoOwner, repoName, localPath }) {
+                if (!accessToken) throw new Error("Missing required parameter: accessToken");
+                if (!repoOwner) throw new Error("Missing required parameter: repoOwner");
+                if (!repoName) throw new Error("Missing required parameter: repoName");
+                if (!localPath) throw new Error("Missing required parameter: localPath");
+                if (typeof accessToken !== "string") throw new Error("Invalid parameter type: accessToken must be a string");
+                if (typeof repoOwner !== "string") throw new Error("Invalid parameter type: repoOwner must be a string");
+                if (typeof repoName !== "string") throw new Error("Invalid parameter type: repoName must be a string");
+                if (typeof localPath !== "string") throw new Error("Invalid parameter type: localPath must be a string");
+        
+                return GithubApis.Respository.Clone(this.clientId, this.clientSecret, this.redirectUri, { accessToken, repoOwner, repoName, localPath }).then((result) => {
+                    if (result.status) console.log(`Repository ${repoOwner}/${repoName} cloned successfully!`);
+                    if (!result.status) console.log(result.message);
+                });
+            }
+        }
+    }
 
-        return GithubApis.UserProfile(this.clientId, this.clientSecret, this.redirectUri, { accessToken, userAgent });
-    };
+    get UserSchemas() {
+        return {
+            GetUserProfile({ accessToken, userAgent }) {
+                if (!accessToken) throw new Error("Missing required parameter: accessToken");
+                if (!userAgent) throw new Error("Missing required parameter: userAgent");
+                if (typeof accessToken !== "string") throw new Error("Invalid parameter type: accessToken must be a string");
+                if (typeof userAgent !== "string") throw new Error("Invalid parameter type: userAgent must be a string");
+        
+                return GithubApis.User.Profile(this.clientId, this.clientSecret, this.redirectUri, { accessToken, userAgent });
+            },
+            GetUserRepositories({ accessToken, userAgent }) {
+                if (!accessToken) throw new Error("Missing required parameter: accessToken");
+                if (!userAgent) throw new Error("Missing required parameter: userAgent");
+                if (typeof accessToken !== "string") throw new Error("Invalid parameter type: accessToken must be a string");
+                if (typeof userAgent !== "string") throw new Error("Invalid parameter type: userAgent must be a string");
+        
+                return GithubApis.User.Repositories(this.clientId, this.clientSecret, this.redirectUri, { accessToken, userAgent });
+            },
 
-    GetUserEmails({ accessToken, userAgent }) {
-        if (!accessToken) throw new Error("Missing required parameter: accessToken");
-        if (!userAgent) throw new Error("Missing required parameter: userAgent");
-        if (typeof accessToken !== "string") throw new Error("Invalid parameter type: accessToken must be a string");
-        if (typeof userAgent !== "string") throw new Error("Invalid parameter type: userAgent must be a string");
+            get EmailSchemas() {
+                return {
+                    GetEmails({ accessToken, userAgent }) {
+                        if (!accessToken) throw new Error("Missing required parameter: accessToken");
+                        if (!userAgent) throw new Error("Missing required parameter: userAgent");
+                        if (typeof accessToken !== "string") throw new Error("Invalid parameter type: accessToken must be a string");
+                        if (typeof userAgent !== "string") throw new Error("Invalid parameter type: userAgent must be a string");
+                
+                        return GithubApis.User.Email.Emails(this.clientId, this.clientSecret, this.redirectUri, { accessToken, userAgent });
+                    },
+                    GetPublicEmails({ accessToken, userAgent }) {
+                        if (!accessToken) throw new Error("Missing required parameter: accessToken");
+                        if (!userAgent) throw new Error("Missing required parameter: userAgent");
+                        if (typeof accessToken !== "string") throw new Error("Invalid parameter type: accessToken must be a string");
+                        if (typeof userAgent !== "string") throw new Error("Invalid parameter type: userAgent must be a string");
+                
+                        return GithubApis.User.Email.PublicEmails(this.clientId, this.clientSecret, this.redirectUri, { accessToken, userAgent });
+                    },
+                }
+            },
 
-        return GithubApis.UserEmail(this.clientId, this.clientSecret, this.redirectUri, { accessToken, userAgent });
-    };
-
-    GetUserRepos({ accessToken, userAgent }) {
-        if (!accessToken) throw new Error("Missing required parameter: accessToken");
-        if (!userAgent) throw new Error("Missing required parameter: userAgent");
-        if (typeof accessToken !== "string") throw new Error("Invalid parameter type: accessToken must be a string");
-        if (typeof userAgent !== "string") throw new Error("Invalid parameter type: userAgent must be a string");
-
-        return GithubApis.UserRepos(this.clientId, this.clientSecret, this.redirectUri, { accessToken, userAgent });
-    };
-
-    CloneRepository({ accessToken, repoOwner, repoName, localPath }) {
-        if (!accessToken) throw new Error("Missing required parameter: accessToken");
-        if (!repoOwner) throw new Error("Missing required parameter: repoOwner");
-        if (!repoName) throw new Error("Missing required parameter: repoName");
-        if (!localPath) throw new Error("Missing required parameter: localPath");
-        if (typeof accessToken !== "string") throw new Error("Invalid parameter type: accessToken must be a string");
-        if (typeof repoOwner !== "string") throw new Error("Invalid parameter type: repoOwner must be a string");
-        if (typeof repoName !== "string") throw new Error("Invalid parameter type: repoName must be a string");
-        if (typeof localPath !== "string") throw new Error("Invalid parameter type: localPath must be a string");
-
-        return GithubApis.RepoClone(this.clientId, this.clientSecret, this.redirectUri, { accessToken, repoOwner, repoName, localPath }).then((result) => {
-            if (result.status) console.log(`Repository ${repoOwner}/${repoName} cloned successfully!`);
-            if (!result.status) console.log(result.message);
-        });
-    };
+            get Followers() {
+                return {
+                    Follow({ accessToken, userAgent, username }) {
+                        if (!accessToken) throw new Error("Missing required parameter: accessToken");
+                        if (!userAgent) throw new Error("Missing required parameter: userAgent");
+                        if (!username) throw new Error("Missing required parameter: username");
+                        if (typeof accessToken !== "string") throw new Error("Invalid parameter type: accessToken must be a string");
+                        if (typeof userAgent !== "string") throw new Error("Invalid parameter type: userAgent must be a string");
+                        if (typeof username !== "string") throw new Error("Invalid parameter type: username must be a string");
+                
+                        return GithubApis.User.Followers.Follow(this.clientId, this.clientSecret, this.redirectUri, { accessToken, userAgent, username });
+                    },
+                    Unfollow({ accessToken, userAgent, username }) {
+                        if (!accessToken) throw new Error("Missing required parameter: accessToken");
+                        if (!userAgent) throw new Error("Missing required parameter: userAgent");
+                        if (!username) throw new Error("Missing required parameter: username");
+                        if (typeof accessToken !== "string") throw new Error("Invalid parameter type: accessToken must be a string");
+                        if (typeof userAgent !== "string") throw new Error("Invalid parameter type: userAgent must be a string");
+                        if (typeof username !== "string") throw new Error("Invalid parameter type: username must be a string");
+                
+                        return GithubApis.User.Followers.Unfollow(this.clientId, this.clientSecret, this.redirectUri, { accessToken, userAgent, username });
+                    },
+                    IsFollowing({ accessToken, userAgent, username }) {
+                        if (!accessToken) throw new Error("Missing required parameter: accessToken");
+                        if (!userAgent) throw new Error("Missing required parameter: userAgent");
+                        if (!username) throw new Error("Missing required parameter: username");
+                        if (typeof accessToken !== "string") throw new Error("Invalid parameter type: accessToken must be a string");
+                        if (typeof userAgent !== "string") throw new Error("Invalid parameter type: userAgent must be a string");
+                        if (typeof username !== "string") throw new Error("Invalid parameter type: username must be a string");
+                
+                        return GithubApis.User.Followers.IsFollowing(this.clientId, this.clientSecret, this.redirectUri, { accessToken, userAgent, username });
+                    },
+                    FollowingOtherUser({ accessToken, userAgent, username, target }) {
+                        if (!accessToken) throw new Error("Missing required parameter: accessToken");
+                        if (!userAgent) throw new Error("Missing required parameter: userAgent");
+                        if (!username) throw new Error("Missing required parameter: username");
+                        if (!target) throw new Error("Missing required parameter: target");
+                        if (typeof accessToken !== "string") throw new Error("Invalid parameter type: accessToken must be a string");
+                        if (typeof userAgent !== "string") throw new Error("Invalid parameter type: userAgent must be a string");
+                        if (typeof username !== "string") throw new Error("Invalid parameter type: username must be a string");
+                        if (typeof target !== "string") throw new Error("Invalid parameter type: target must be a string");
+                
+                        return GithubApis.User.Followers.IsFollowing(this.clientId, this.clientSecret, this.redirectUri, { accessToken, userAgent, username, target });
+                    },
+                    Followers({ accessToken, userAgent }) {
+                        if (!accessToken) throw new Error("Missing required parameter: accessToken");
+                        if (!userAgent) throw new Error("Missing required parameter: userAgent");
+                        if (typeof accessToken !== "string") throw new Error("Invalid parameter type: accessToken must be a string");
+                        if (typeof userAgent !== "string") throw new Error("Invalid parameter type: userAgent must be a string");
+                
+                        return GithubApis.User.Followers.Followers(this.clientId, this.clientSecret, this.redirectUri, { accessToken, userAgent, username });
+                    },
+                    Following({ accessToken, userAgent }) {
+                        if (!accessToken) throw new Error("Missing required parameter: accessToken");
+                        if (!userAgent) throw new Error("Missing required parameter: userAgent");
+                        if (typeof accessToken !== "string") throw new Error("Invalid parameter type: accessToken must be a string");
+                        if (typeof userAgent !== "string") throw new Error("Invalid parameter type: userAgent must be a string");
+                
+                        return GithubApis.User.Followers.Following(this.clientId, this.clientSecret, this.redirectUri, { accessToken, userAgent, username });
+                    },
+                    FollowersList({ accessToken, userAgent, username }) {
+                        if (!accessToken) throw new Error("Missing required parameter: accessToken");
+                        if (!userAgent) throw new Error("Missing required parameter: userAgent");
+                        if (!username) throw new Error("Missing required parameter: username");
+                        if (typeof accessToken !== "string") throw new Error("Invalid parameter type: accessToken must be a string");
+                        if (typeof userAgent !== "string") throw new Error("Invalid parameter type: userAgent must be a string");
+                        if (typeof username !== "string") throw new Error("Invalid parameter type: username must be a string");
+                
+                        return GithubApis.User.Followers.FollowersList(this.clientId, this.clientSecret, this.redirectUri, { accessToken, userAgent, username });
+                    },
+                    FollowingList({ accessToken, userAgent, username }) {
+                        if (!accessToken) throw new Error("Missing required parameter: accessToken");
+                        if (!userAgent) throw new Error("Missing required parameter: userAgent");
+                        if (!username) throw new Error("Missing required parameter: username");
+                        if (typeof accessToken !== "string") throw new Error("Invalid parameter type: accessToken must be a string");
+                        if (typeof userAgent !== "string") throw new Error("Invalid parameter type: userAgent must be a string");
+                        if (typeof username !== "string") throw new Error("Invalid parameter type: username must be a string");
+                
+                        return GithubApis.User.Followers.FollowingList(this.clientId, this.clientSecret, this.redirectUri, { accessToken, userAgent, username });
+                    },
+                }
+            }
+        }
+    }
 };
 
 module.exports = { GithubOAuth2, Scopes };

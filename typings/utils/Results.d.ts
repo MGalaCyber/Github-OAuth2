@@ -63,6 +63,91 @@ export interface UserEmails {
     visibility: string | null;
 }
 
+export interface Followers {
+    login: string;
+    id: number;
+    nodeId: string;
+    avatarUrl: string;
+    gravatarId: string;
+    url: string;
+    htmlUrl: string;
+    followersUrl: string;
+    followingUrl: string;
+    gistsUrl: string;
+    starredUrl: string;
+    subscriptionsUrl: string;
+    organizationsUrl: string;
+    reposUrl: string;
+    eventsUrl: string;
+    receivedEventsUrl: string;
+    type: string;
+    siteAdmin: boolean;
+}
+
+export interface Following {
+    login: string;
+    id: number;
+    nodeId: string;
+    avatarUrl: string;
+    gravatarId: string;
+    url: string;
+    htmlUrl: string;
+    followersUrl: string;
+    followingUrl: string;
+    gistsUrl: string;
+    starredUrl: string;
+    subscriptionsUrl: string;
+    organizationsUrl: string;
+    reposUrl: string;
+    eventsUrl: string;
+    receivedEventsUrl: string;
+    type: string;
+    siteAdmin: boolean;
+}
+
+export interface FollowersList {
+    login: string;
+    id: number;
+    nodeId: string;
+    avatarUrl: string;
+    gravatarId: string;
+    url: string;
+    htmlUrl: string;
+    followersUrl: string;
+    followingUrl: string;
+    gistsUrl: string;
+    starredUrl: string;
+    subscriptionsUrl: string;
+    organizationsUrl: string;
+    reposUrl: string;
+    eventsUrl: string;
+    receivedEventsUrl: string;
+    type: string;
+    siteAdmin: boolean;
+}
+
+export interface FollowingList {
+    login: string;
+    id: number;
+    nodeId: string;
+    avatarUrl: string;
+    gravatarId: string;
+    url: string;
+    htmlUrl: string;
+    followersUrl: string;
+    followingUrl: string;
+    gistsUrl: string;
+    starredUrl: string;
+    subscriptionsUrl: string;
+    organizationsUrl: string;
+    reposUrl: string;
+    eventsUrl: string;
+    receivedEventsUrl: string;
+    type: string;
+    siteAdmin: boolean;
+}
+
+
 export interface Owner {
     login: string;
     id: number;
@@ -92,7 +177,7 @@ export interface Licence {
     nodeId: string;
 }
 
-export interface UserRepos {
+export interface UserRepositories {
     id: number;
     nodeId: string;
     name: string;
